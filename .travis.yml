@@ -15,11 +15,13 @@ before_script:
 
 script:
   - docker --version # print the version for logging
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker-compose -f docker-compose-build.yaml build --parallel
+  - docker images
+  - docker push $DOCKER_USERNAME/reverseproxy
+  - docker push $DOCKER_USERNAME/udagram-api-user
+  - docker push $DOCKER_USERNAME/udagram-api-feed
+  - docker push $DOCKER_USERNAME/udagram-frontend
 
 after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push massakone/reverseproxy
-  - docker push massakone/udagram-api-user
-  - docker push massakone/udagram-api-feed
-  - docker push massakone/udagram-frontend:local
+  - echo "TravisCI Job done!"
