@@ -18,7 +18,7 @@ script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "Logged in DockerHub, next step is building the images"
   #---------------------
-  - docker-compose -f docker-compose-build.yaml build ----parallel
+  - docker-compose -f docker-compose-build.yaml build --parallel --verbose
   - echo "Building of images done, next step is tagging and pushing images to DockerHub"
   #---------------------
   - echo "Tagging and pushing massakone/reverseproxy"
