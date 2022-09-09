@@ -14,21 +14,28 @@ before_script:
   - echo "No tests planned"
 
 script:
-  - docker --version # Print the version for logging
-  - echo "Removing unused and dangling images"                       
+  - docker --version # Print the version for logging                    
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - echo "Logged in DockerHub, next step is building the images" 
+  - echo "Logged in DockerHub, next step is building the images"
+  #---------------------
   - docker-compose -f docker-compose-build.yaml build ----parallel
-  - echo "Building of images done, next step is pusshing images to DockerHub"
-  - echo "Pushing massakone/reverseproxy"
+  - echo "Building of images done, next step is tagging and pushing images to DockerHub"
+  #---------------------
+  - echo "Tagging and pushing massakone/reverseproxy"
+  - docker tag reverseproxy massakone/reverseproxy
   - docker push massakone/reverseproxy
-  - echo "Pushing massakone/reverseproxy"
+  #---------------------
+  - echo "Tagging and pushing massakone/udagram-api-user"
+  - docker tag udagram-api-user massakone/udagram-api-user
   - docker push massakone/udagram-api-user
-  - echo "Pushing massakone/reverseproxy"
+  #---------------------
+  - echo "Tagging and pushing massakone/udagram-api-feed"
+  - docker tag udagram-api-feed massakone/udagram-api-feed
   - docker push massakone/udagram-api-feed
-  - echo "Pushing massakone/reverseproxy"
+  #---------------------
+  - echo "Tagging and pushing massakone/udagram-frontend"
+  - docker tag udagram-frontend massakone/udagram-frontend
   - docker push massakone/udagram-frontend
-  - echo "Pushing massakone/reverseproxy" 
 
 after_success:
   - echo "Pushing images to DockerHub done"
