@@ -14,7 +14,8 @@ before_script:
   - echo "No tests planned"
 
 script:
-  - docker --version # Print the version for logging                    
+  - docker --version # Print the version for logging
+  - docker system prune --all --force
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "Logged in DockerHub, next step is building the images"
   #---------------------
